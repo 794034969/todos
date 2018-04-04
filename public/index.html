@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todos</title>
+    <link rel="stylesheet" href="stylesheets/index.css">
+</head>
+<body>
+    <section class="todoapp">
+        <!-- 顶部输入框 -->
+        <header class="header">
+            <h1>todos</h1>
+            <input class="new-todo" autofocus autocomplete="off" placeholder="请输入待办事项"
+                   v-model="newText.title" v-on:keyup.enter="insert">
+        </header>
+        <section class="main">
+            <input class="toggle-all" type="checkbox"/>
+            <ul class="todo-list">
+                <li class="todo" v-bind:class="{completed:text[index].completed}" v-for="(item,index) in text">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" v-model="text[index].completed">
+                        <label>{{item.title}}</label>
+                        <button class="destroy" v-on:click="del"></button>
+                    </div>
+                    <input class="edit" type="text">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer" >
+                    <span class="todo-count">
+                        <strong></strong>0 left
+                    </span>
+            <ul class="filters">
+                <li><a href="" class="selected">All</a></li>
+                <li><a href="" >Active</a></li>
+                <li><a href="" >Completed</a></li>
+            </ul>
+            <button class="clear-completed">
+                Clear completed
+            </button>
+        </footer>
+    </section>
+</body>
+<script src="javascripts/vue.js"></script>
+    <script>
+        new Vue({
+            el:".todoapp",
+            data:{
+                text:[
+                    {title:"今日待办",completed:false},
+                    {title:"明日待办",completed:false}
+                ],
+                newText:{title:"",completed:false}
+            },
+            methods:{
+                insert:function () {
+                    if (this.newText.title!="") {
+                        this.text.push(this.newText);
+                        this.newText={title:"",completed:false};
+                    }
+                },
+                del:function (index) {
+                    this.text.splice(index,1);
+                }
+            }
+        })
+    </script>
+</html>
